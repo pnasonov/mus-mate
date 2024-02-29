@@ -20,7 +20,7 @@
           <div class="collapse navbar-collapse pt-3 pb-2 py-lg-0" id="navigation">
             <ul class="navbar-nav navbar-nav-hover ms-lg-12 ps-lg-5 w-100">
               <li class="nav-item dropdown dropdown-hover mx-2">
-                <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center"
+                <a class="nav-link ps-2 d-flex justify-content-between pe-none align-items-center"
                    id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
                   Posts
                   <img src="{{ ASSETS_ROOT }}/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-1">
@@ -39,7 +39,7 @@
                 </div>
               </li>
               <li class="nav-item dropdown dropdown-hover mx-2">
-                <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center"
+                <a class="nav-link ps-2 d-flex justify-content-between pe-none align-items-center"
                    id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
                   Song
                   <img src="{{ ASSETS_ROOT }}/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-1">
@@ -58,7 +58,7 @@
                 </div>
               </li>
               <li class="nav-item dropdown dropdown-hover mx-2">
-                <a class="nav-link ps-2 d-flex justify-content-between cursor-pointer align-items-center"
+                <a class="nav-link ps-2 d-flex justify-content-between pe-none align-items-center"
                    id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
                   Playlists
                   <img src="{{ ASSETS_ROOT }}/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-1">
@@ -75,6 +75,12 @@
                     </a>
                   </div>
                 </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link ps-2 d-flex justify-content-between align-items-center"
+                    aria-expanded="false" href="{% url 'forum:post_list' %}">
+                  Profile
+                </a>
               </li>
               <li class="nav-item ms-lg-auto">
                 <a class="nav-link nav-link-icon me-2" href="{% url 'logout' %}">
