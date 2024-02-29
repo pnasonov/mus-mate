@@ -10,7 +10,7 @@
 {% block content %}
 
 
-  
+
   <section>
     <div class="page-header section-height-100">
       <div class="container">
@@ -21,27 +21,27 @@
                 <h4 class="font-weight-bolder">MusMate</h4>
                 <p class="mb-0">
                   {% if msg %}
-                      {{ msg | safe }}
+                    {{ msg | safe }}
                   {% else %}
-                      Sign Up
-                  {% endif %}                
+                    Sign Up
+                  {% endif %}
                 </p>
               </div>
               <div class="card-body">
                 <form method="post" action="" role="form">
 
                   {% csrf_token %}
-                  
+
                   <div class="mb-3">
                     {{ form.username }}
-                  </div>                
+                  </div>
                   <span class="text-error">{{ form.username.errors }}</span>
 
                   <div class="mb-3">
                     {{ form.email }}
                   </div>
                   <span class="text-error">{{ form.email.errors }}</span>
-                  
+
                   <div class="mb-3">
                     {{ form.password1 }}
                   </div>
@@ -51,10 +51,11 @@
                     {{ form.password2 }}
                   </div>
                   <span class="text-error">{{ form.password2.errors }}</span>
-                  
+
                   <div class="text-center">
                     <button type="submit" name="register"
-                            class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Register</button>
+                            class="btn btn-lg bg-gradient-primary btn-lg w-100 mt-4 mb-0">Register
+                    </button>
                   </div>
                 </form>
               </div>
@@ -66,14 +67,18 @@
               </div>
             </div>
           </div>
-          <div class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
-            <div class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
-              <img src="{{ ASSETS_ROOT }}/img/shapes/pattern-lines.svg" alt="pattern-lines" class="position-absolute opacity-4 start-0">
+          <div
+              class="col-6 d-lg-flex d-none h-100 my-auto pe-0 position-absolute top-0 end-0 text-center justify-content-center flex-column">
+            <div
+                class="position-relative bg-gradient-primary h-100 m-3 px-7 border-radius-lg d-flex flex-column justify-content-center">
+              <img src="{{ ASSETS_ROOT }}/img/shapes/pattern-lines.svg" alt="pattern-lines"
+                   class="position-absolute opacity-4 start-0">
               <div class="position-relative">
-                <img class="max-width-500 w-100 position-relative z-index-2" src="{{ ASSETS_ROOT }}/img/illustrations/chat.png">
+                <img class="max-width-500 w-100 position-relative z-index-2"
+                     src="{{ ASSETS_ROOT }}/img/illustrations/chat.png">
               </div>
               <h4 class="mt-5 text-white font-weight-bolder">
-                MusMate
+                MusMate Forum
               </h4>
               <p class="text-white">
                 Create playlists, find friends and just share your thoughts on music.
@@ -87,7 +92,7 @@
 
 {% endblock content %}
 
-<!-- Specific JS goes HERE --> 
+<!-- Specific JS goes HERE -->
 {% block javascripts %}
 
   <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
