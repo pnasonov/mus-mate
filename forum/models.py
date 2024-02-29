@@ -10,6 +10,9 @@ class Song(models.Model):
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
 
+    def __str__(self) -> str:
+        return self.title + " - " + self.artist
+
 
 class Playlist(models.Model):
     name = models.CharField(max_length=40)
@@ -27,6 +30,9 @@ class Post(models.Model):
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
+
+    def __str__(self) -> str:
+        return f"{self.title} (by {self.owner})"
 
 
 class Commentary(models.Model):
