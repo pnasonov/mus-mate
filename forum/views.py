@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -40,8 +41,36 @@ class PostListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self) -> QuerySet:
-        queryset = Post.objects.all()
+        queryset = Post.objects.prefetch_related("owner", "commentaries")
         title = self.request.GET.get("title")
+
+        if title:
+            return queryset.filter(title__icontains=title)
+
+        return queryset
+
+
+class MyPostListView(LoginRequiredMixin, generic.ListView):
+    model = Post
+    ordering = "-created_time"
+    paginate_by = 5
+    template_name = "forum/post_list_my.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(MyPostListView, self).get_context_data(**kwargs)
+        title = self.request.GET.get("title", "")
+
+        context["search_form"] = PostSearchForm(initial={"title": title})
+
+        return context
+
+    def get_queryset(self) -> QuerySet:
+        queryset = Post.objects.prefetch_related(
+            "owner", "commentaries"
+        ).filter(owner=self.request.user.id)
+
+        title = self.request.GET.get("title")
+
         if title:
             return queryset.filter(title__icontains=title)
 
