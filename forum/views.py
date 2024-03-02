@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views import generic
@@ -122,8 +122,13 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
 
 class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Post
-    fields = "__all__"
+    form_class = PostForm
     success_url = reverse_lazy("forum:post-list")
+
+    def form_valid(self, form: PostForm):
+        form.instance.created_by = self.request.user
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
 
 class PostDeleteView(LoginRequiredMixin, generic.DeleteView):

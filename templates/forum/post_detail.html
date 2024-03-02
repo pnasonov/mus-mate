@@ -26,7 +26,17 @@
                   {{ post.title }}
                 </h4>
               </div>
-              <div class="col-lg-5 mt-2 text-end">
+              <div class="col-lg-6">
+                {% if post.owner == user%}
+                <a href="{% url 'forum:post-update' pk=post.id%}">
+                  <input class="btn btn-info" type="submit" value="Edit post">
+                </a>&nbsp&nbsp&nbsp
+                <a href="{% url 'forum:post-delete' pk=post.id%}">
+                  <input class="btn btn-danger" type="submit" value="Delete post">
+                </a>
+                {% endif %}
+              </div>
+              <div class="col-lg-3 mt-2 text-end">
                 <div class="nav-wrapper position-relative end-0">
                   {{ post.created_time }}
                 </div>
