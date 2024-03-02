@@ -18,6 +18,7 @@ class Playlist(models.Model):
     name = models.CharField(max_length=40)
     description = models.CharField(max_length=255, blank=True)
     songs = models.ManyToManyField(Song, related_name="playlists")
+    created_time = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
         settings.AUTH_USER_MODEL, on_delete=models.CASCADE
     )
