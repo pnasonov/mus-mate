@@ -82,13 +82,23 @@
                   Profile
                 </a>
               </li>
+              {% if user.is_authenticated %}
               <li class="nav-item ms-lg-auto">
                 <a class="nav-link nav-link-icon me-2" href="{% url 'logout' %}">
                   <i class="fa fa-sign-out me-1"></i>
                   <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
-                     data-bs-placement="bottom" title="Logout">Logout</p>
+                     data-bs-placement="bottom" title="Log Out">Log Out</p>
                 </a>
               </li>
+              {% else %}
+                <li class="nav-item ms-lg-auto">
+                <a class="nav-link nav-link-icon me-2" href="{% url 'login' %}">
+                  <i class="fa fa-sign-out me-1"></i>
+                  <p class="d-inline text-sm z-index-1 font-weight-bold" data-bs-toggle="tooltip"
+                     data-bs-placement="bottom" title="Log In">Log In</p>
+                </a>
+              </li>
+              {% endif %}
 
             </ul>
           </div>

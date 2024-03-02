@@ -10,13 +10,24 @@ from forum.models import Post, Playlist, User, Song
 from forum.forms import CommentaryForm, PostSearchForm, PostForm
 
 
-@login_required
 def index(request: HttpRequest) -> HttpResponse:
     """View function for the home page of the site."""
+    if request.user.is_authenticated:
+        num_posts = Post.objects.filter(owner=request.user).count()
+        num_playlists = Playlist.objects.filter(owner=request.user).count()
+        num_songs = Song.objects.filter(owner=request.user).count()
 
-    num_posts = Post.objects.filter(owner=request.user).count()
-    num_playlists = Playlist.objects.filter(owner=request.user).count()
-    num_songs = Song.objects.filter(owner=request.user).count()
+        context = {
+            "num_posts": num_posts,
+            "num_playlists": num_playlists,
+            "num_songs": num_songs,
+        }
+
+        return render(request, "forum/index.html", context=context)
+
+    num_posts = Post.objects.count()
+    num_playlists = Playlist.objects.count()
+    num_songs = Song.objects.count()
 
     context = {
         "num_posts": num_posts,
@@ -27,7 +38,7 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "forum/index.html", context=context)
 
 
-class PostListView(LoginRequiredMixin, generic.ListView):
+class PostListView(generic.ListView):
     model = Post
     paginate_by = 5
 
@@ -79,7 +90,6 @@ class MyPostListView(LoginRequiredMixin, generic.ListView):
 
 
 class PostDetailView(
-    LoginRequiredMixin,
     generic.edit.FormMixin,
     generic.DetailView,
 ):
