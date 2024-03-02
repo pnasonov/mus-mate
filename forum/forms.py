@@ -1,6 +1,18 @@
 from django import forms
 
-from forum.models import Commentary
+from forum.models import Commentary, Post
+
+
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Post
+        fields = ("title", "content")
+        labels = {"title": "Post title", "content": ""}
+        widgets = {
+            "content": forms.Textarea(
+                attrs={"rows": 4, "placeholder": "Write text of post here..."}
+            ),
+        }
 
 
 class CommentaryForm(forms.ModelForm):

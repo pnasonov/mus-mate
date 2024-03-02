@@ -15,14 +15,23 @@
     <div class="row">
       <div class="col-lg-9 mx-auto">
         <div class="row">
-          <div class="col-lg-7">
-            <div class="mb-4 w-25 h-2">
+          <div class="col-lg-3">
+            <div class="h-2">
               <br>
               <br>
               <h3 class="text-gradient text-primary">All Posts</h3>
+
             </div>
           </div>
-          <div class="col-lg-4">
+          <div class="col-lg-3">
+            <div class="h-2">
+              <br><br>
+              <a href="{% url 'forum:post-create' %}">
+                <input class="btn btn-primary bg-gradient-primary" type="submit" value="Create post">
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5">
             <div class="mb-4">
               <br>
               <br>

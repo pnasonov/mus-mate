@@ -7,7 +7,7 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from forum.models import Post, Playlist, User, Song
-from forum.forms import CommentaryForm, PostSearchForm
+from forum.forms import CommentaryForm, PostSearchForm, PostForm
 
 
 @login_required
@@ -29,7 +29,6 @@ def index(request: HttpRequest) -> HttpResponse:
 
 class PostListView(LoginRequiredMixin, generic.ListView):
     model = Post
-    ordering = "-created_time"
     paginate_by = 5
 
     def get_context_data(self, *, object_list=None, **kwargs) -> dict:
@@ -41,7 +40,9 @@ class PostListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self) -> QuerySet:
-        queryset = Post.objects.prefetch_related("owner", "commentaries")
+        queryset = Post.objects.prefetch_related(
+            "owner", "commentaries"
+        ).order_by("-created_time")
         title = self.request.GET.get("title")
 
         if title:
@@ -106,3 +107,25 @@ class PostDetailView(
 
     def get_success_url(self) -> str:
         return self.request.path
+
+
+class PostCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Post
+    form_class = PostForm
+    success_url = reverse_lazy("forum:post-list")
+
+    def form_valid(self, form: PostForm):
+        form.instance.created_by = self.request.user
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+
+class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Post
+    fields = "__all__"
+    success_url = reverse_lazy("forum:post-list")
+
+
+class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Post
+    success_url = reverse_lazy("forum:post-list")
