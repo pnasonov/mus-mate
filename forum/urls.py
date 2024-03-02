@@ -8,6 +8,10 @@ from forum.views import (
     PostCreateView,
     PostUpdateView,
     PostDeleteView,
+    MySongListView,
+    SongCreateView,
+    SongUpdateView,
+    SongDeleteView,
 )
 
 urlpatterns = [
@@ -21,6 +25,14 @@ urlpatterns = [
     ),
     path(
         "posts/<int:pk>/delete/", PostDeleteView.as_view(), name="post-delete"
+    ),
+    path("songs/my/", MySongListView.as_view(), name="song-my"),
+    path("songs/create/", SongCreateView.as_view(), name="song-create"),
+    path(
+        "songs/<int:pk>/update/", SongUpdateView.as_view(), name="song-update"
+    ),
+    path(
+        "songs/<int:pk>/delete/", SongDeleteView.as_view(), name="song-delete"
     ),
 ]
 

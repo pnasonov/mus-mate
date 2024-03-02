@@ -1,4 +1,3 @@
-from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -7,7 +6,13 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from forum.models import Post, Playlist, User, Song
-from forum.forms import CommentaryForm, PostSearchForm, PostForm
+from forum.forms import (
+    CommentaryForm,
+    PostSearchForm,
+    PostForm,
+    SongSearchForm,
+    SongForm,
+)
 
 
 def index(request: HttpRequest) -> HttpResponse:
@@ -102,13 +107,15 @@ class PostDetailView(
         context["form"] = self.get_form()
         return context
 
-    def form_valid(self, form: CommentaryForm) -> HttpResponse:
+    def form_valid(self, form: CommentaryForm) -> HttpResponseRedirect:
         form.instance.post = self.get_object()
         form.instance.user = self.request.user
         form.save()
         return super().form_valid(form)
 
-    def post(self, request: HttpRequest, *args, **kwargs) -> HttpResponse:
+    def post(
+        self, request: HttpRequest, *args, **kwargs
+    ) -> HttpResponseRedirect:
         form = self.get_form()
 
         if form.is_valid() and request.user.is_authenticated:
@@ -124,7 +131,7 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
     form_class = PostForm
     success_url = reverse_lazy("forum:post-list")
 
-    def form_valid(self, form: PostForm):
+    def form_valid(self, form: PostForm) -> HttpResponseRedirect:
         form.instance.created_by = self.request.user
         form.instance.owner = self.request.user
         return super().form_valid(form)
@@ -135,7 +142,7 @@ class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
     form_class = PostForm
     success_url = reverse_lazy("forum:post-list")
 
-    def form_valid(self, form: PostForm):
+    def form_valid(self, form: PostForm) -> HttpResponseRedirect:
         form.instance.created_by = self.request.user
         form.instance.owner = self.request.user
         return super().form_valid(form)
@@ -144,3 +151,55 @@ class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
 class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Post
     success_url = reverse_lazy("forum:post-list")
+
+
+class MySongListView(LoginRequiredMixin, generic.ListView):
+    model = Song
+    paginate_by = 15
+    template_name = "forum/song_list_my.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(MySongListView, self).get_context_data(**kwargs)
+        artist = self.request.GET.get("artist", "")
+
+        context["search_form"] = SongSearchForm(initial={"artist": artist})
+
+        return context
+
+    def get_queryset(self) -> QuerySet:
+        queryset = Song.objects.filter(owner=self.request.user).order_by(
+            "title"
+        )
+        artist = self.request.GET.get("artist")
+
+        if artist:
+            return queryset.filter(artist__icontains=artist)
+
+        return queryset
+
+
+class SongCreateView(LoginRequiredMixin, generic.CreateView):
+    model = Song
+    form_class = SongForm
+    success_url = reverse_lazy("forum:song-my")
+
+    def form_valid(self, form: SongForm) -> HttpResponseRedirect:
+        form.instance.created_by = self.request.user
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+
+class SongUpdateView(LoginRequiredMixin, generic.UpdateView):
+    model = Song
+    form_class = SongForm
+    success_url = reverse_lazy("forum:song-my")
+
+    def form_valid(self, form: SongForm) -> HttpResponseRedirect:
+        form.instance.created_by = self.request.user
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
+
+class SongDeleteView(LoginRequiredMixin, generic.DeleteView):
+    model = Song
+    success_url = reverse_lazy("forum:song-my")

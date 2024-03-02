@@ -1,6 +1,6 @@
 from django import forms
 
-from forum.models import Commentary, Post
+from forum.models import Commentary, Post, Song
 
 
 class PostForm(forms.ModelForm):
@@ -29,10 +29,26 @@ class CommentaryForm(forms.ModelForm):
         }
 
 
+class SongForm(forms.ModelForm):
+    class Meta:
+        model = Song
+        fields = ("title", "artist")
+        labels = {"title": "Song name", "content": ""}
+
+
 class PostSearchForm(forms.Form):
     title = forms.CharField(
         max_length=255,
         required=False,
         label="",
         widget=forms.TextInput(attrs={"placeholder": "Search by title"}),
+    )
+
+
+class SongSearchForm(forms.Form):
+    artist = forms.CharField(
+        max_length=255,
+        required=False,
+        label="",
+        widget=forms.TextInput(attrs={"placeholder": "Search by artist"}),
     )

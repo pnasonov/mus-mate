@@ -41,25 +41,6 @@
               <li class="nav-item dropdown dropdown-hover mx-2">
                 <a class="nav-link ps-2 d-flex justify-content-between pe-none align-items-center"
                    id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
-                  Songs
-                  <img src="{{ ASSETS_ROOT }}/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-1">
-                </a>
-                <div class="dropdown-menu dropdown-menu-animation dropdown-md p-3 border-radius-lg mt-0 mt-lg-3"
-                     aria-labelledby="dropdownMenuPages">
-                  <div class="d-none d-lg-block">
-
-                    <a href="/page-about-us.html" class="dropdown-item border-radius-md">
-                      All Songs
-                    </a>
-                    <a href="/page-contact-us.html" class="dropdown-item border-radius-md">
-                      My Songs
-                    </a>
-                  </div>
-                </div>
-              </li>
-              <li class="nav-item dropdown dropdown-hover mx-2">
-                <a class="nav-link ps-2 d-flex justify-content-between pe-none align-items-center"
-                   id="dropdownMenuPages" data-bs-toggle="dropdown" aria-expanded="false">
                   Playlists
                   <img src="{{ ASSETS_ROOT }}/img/down-arrow-dark.svg" alt="down-arrow" class="arrow ms-1">
                 </a>
@@ -75,6 +56,12 @@
                     </a>
                   </div>
                 </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link ps-2 d-flex justify-content-between align-items-center"
+                    aria-expanded="false" href="{% url 'forum:song-my' %}">
+                  Songs
+                </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link ps-2 d-flex justify-content-between align-items-center"
