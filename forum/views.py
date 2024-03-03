@@ -1,3 +1,4 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
 from django.http import HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
@@ -5,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from forum.models import Post, Playlist, User, Song
+from forum.models import Post, Playlist, Song
 from forum.forms import (
     CommentaryForm,
     PostSearchForm,
@@ -19,6 +20,7 @@ from forum.forms import (
 
 def index(request: HttpRequest) -> HttpResponse:
     """View function for the home page of the site."""
+
     if request.user.is_authenticated:
         num_posts = Post.objects.filter(owner=request.user).count()
         num_playlists = Playlist.objects.filter(owner=request.user).count()
@@ -43,6 +45,13 @@ def index(request: HttpRequest) -> HttpResponse:
     }
 
     return render(request, "forum/index.html", context=context)
+
+
+@login_required
+def profile(request: HttpRequest) -> HttpResponse:
+    """User's profile page."""
+
+    return render(request, "forum/profile.html")
 
 
 class PostListView(generic.ListView):

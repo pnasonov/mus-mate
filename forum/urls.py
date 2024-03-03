@@ -2,6 +2,7 @@ from django.urls import path
 
 from forum.views import (
     index,
+    profile,
     PostDetailView,
     PostListView,
     MyPostListView,
@@ -70,6 +71,7 @@ urlpatterns = [
         PlaylistDeleteView.as_view(),
         name="playlist-delete",
     ),
+    path("profile/", profile, name="profile"),
 ]
 
 app_name = "forum"
