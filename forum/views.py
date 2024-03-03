@@ -57,9 +57,11 @@ class PostListView(generic.ListView):
         return context
 
     def get_queryset(self) -> QuerySet:
-        queryset = Post.objects.prefetch_related(
-            "owner", "commentaries"
-        ).order_by("-created_time")
+        queryset = (
+            Post.objects.select_related("owner")
+            .prefetch_related("commentaries")
+            .order_by("-created_time")
+        )
         title = self.request.GET.get("title")
 
         if title:
@@ -83,9 +85,11 @@ class MyPostListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self) -> QuerySet:
-        queryset = Post.objects.filter(
-            owner=self.request.user.id
-        ).prefetch_related("owner", "commentaries")
+        queryset = (
+            Post.objects.filter(owner=self.request.user.id)
+            .select_related("owner")
+            .prefetch_related("commentaries")
+        )
 
         title = self.request.GET.get("title")
 
@@ -100,7 +104,9 @@ class PostDetailView(
     generic.DetailView,
 ):
     model = Post
-    queryset = Post.objects.prefetch_related("commentaries")
+    queryset = Post.objects.select_related("owner").prefetch_related(
+        "commentaries"
+    )
     form_class = CommentaryForm
 
     def get_context_data(self, **kwargs) -> dict:
@@ -219,9 +225,11 @@ class PlaylistListView(generic.ListView):
         return context
 
     def get_queryset(self) -> QuerySet:
-        queryset = Playlist.objects.prefetch_related(
-            "owner", "songs"
-        ).order_by("-created_time")
+        queryset = (
+            Playlist.objects.select_related("owner")
+            .prefetch_related("songs")
+            .order_by("-created_time")
+        )
         name = self.request.GET.get("name")
 
         if name:
@@ -246,7 +254,8 @@ class MyPlaylistListView(LoginRequiredMixin, generic.ListView):
     def get_queryset(self) -> QuerySet:
         queryset = (
             Playlist.objects.filter(owner=self.request.user)
-            .prefetch_related("owner", "songs")
+            .select_related("owner")
+            .prefetch_related("songs")
             .order_by("-created_time")
         )
         name = self.request.GET.get("name")
@@ -259,7 +268,9 @@ class MyPlaylistListView(LoginRequiredMixin, generic.ListView):
 
 class PlaylistDetailView(generic.DetailView):
     model = Playlist
-    queryset = Playlist.objects.prefetch_related("songs")
+    queryset = Playlist.objects.select_related("owner").prefetch_related(
+        "songs"
+    )
 
 
 class PlaylistCreateView(LoginRequiredMixin, generic.CreateView):
