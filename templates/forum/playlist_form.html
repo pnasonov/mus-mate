@@ -23,57 +23,23 @@
             <div class="row justify-space-between py-2">
               <div class="col-lg-3 me-auto">
                 <h4 class="text-primary text-gradient pt-1 mb-0">
-                  {{ playlist.name }}
+                  {{ object|yesno:"Update,Create" }} playlist
                 </h4>
               </div>
-              <div class="col-lg-6">
-                {% if playlist.owner == user %}
-                  <a href="{% url 'forum:playlist-update' pk=playlist.id %}">
-                    <input class="btn btn-info" type="submit" value="Edit playlist">
-                  </a>&nbsp&nbsp&nbsp
-                  <a href="{% url 'forum:playlist-delete' pk=playlist.id %}">
-                    <input class="btn btn-danger" type="submit" value="Delete playlist">
-                  </a>
-                {% endif %}
-              </div>
-              <div class="col-lg-3 mt-2 text-end">
-                <div class="nav-wrapper position-relative end-0">
-                  {{ playlist.created_time }}
-                </div>
-              </div>
-            </div>
-            <div class="row justify-space-between py-2">
-              <div class="row justify-space-between py-2">
-                <div class="col-lg-10 me-auto">
-                  <p>{{ playlist.description }}</p>
-                </div>
-                <div class="col-lg-1"></div>
-                <div class="col-lg-1"></div>
-              </div>
             </div>
           </div>
-          <div class="tab-content tab-space">
-            <div class="tab-pane active" id="preview-features-1">
-              <div class="container">
-                <div class="row justify-content-center">
-                  <div class="col-lg-9">
-                    <br>
-                    {% for song in playlist.songs.all %}
-                      <p class="text-dark lead">{{ forloop.counter }}. {{ song.title }} - {{ song.artist }}</p>
-                    {% endfor %}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="container border-bottom">
+          <div class="container border-bottom" id="comments">
             <div class="row justify-space-between py-2">
-              <div class="col-lg-3 me-auto">
-                author: <span class="text-bolder">{{ playlist.owner.username }}</span>
-              </div>
-              <div class="col-lg-3 text-end">
-                <div class="nav-wrapper position-relative end-0">
-                  Songs amount: {{ playlist.songs.count }}
+              <div class="col-1"></div>
+              <div class="col-lg-9 me-auto">
+                <div class="card-body">
+                  <form method="post" action="">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                      {{ form|crispy }}
+                    </div>
+                    <input type="submit" value="Confirm" class="btn btn-primary"/>
+                  </form>
                 </div>
               </div>
             </div>

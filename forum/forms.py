@@ -1,6 +1,6 @@
 from django import forms
 
-from forum.models import Commentary, Post, Song
+from forum.models import Commentary, Post, Song, Playlist
 
 
 class PostForm(forms.ModelForm):
@@ -36,6 +36,26 @@ class SongForm(forms.ModelForm):
         labels = {"title": "Song name", "content": ""}
 
 
+class PlaylistForm(forms.ModelForm):
+    class Meta:
+        model = Playlist
+        fields = ("name", "description", "songs")
+        labels = {
+            "name": "Playlist name",
+            "description": "Description",
+            "songs": "Songs",
+        }
+
+    def __init__(self, *args, user=None, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+
+        if user:
+            self.fields["songs"] = forms.ModelMultipleChoiceField(
+                queryset=Song.objects.filter(owner=user),
+                widget=forms.CheckboxSelectMultiple,
+            )
+
+
 class PostSearchForm(forms.Form):
     title = forms.CharField(
         max_length=255,
@@ -59,5 +79,7 @@ class PlaylistSearchForm(forms.Form):
         max_length=255,
         required=False,
         label="",
-        widget=forms.TextInput(attrs={"placeholder": "Search by playlist name"}),
+        widget=forms.TextInput(
+            attrs={"placeholder": "Search by playlist name"}
+        ),
     )

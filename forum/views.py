@@ -13,6 +13,7 @@ from forum.forms import (
     SongSearchForm,
     SongForm,
     PlaylistSearchForm,
+    PlaylistForm,
 )
 
 
@@ -274,12 +275,29 @@ class PlaylistDetailView(generic.DetailView):
 
 
 class PlaylistCreateView(LoginRequiredMixin, generic.CreateView):
-    pass
+    model = Playlist
+    form_class = PlaylistForm
+    success_url = reverse_lazy("forum:playlist-my")
+
+    def get_form_kwargs(self) -> dict:
+        """Added user kwarg so form filter songs by active user"""
+        kwargs = super().get_form_kwargs()
+        if hasattr(self, "object"):
+            kwargs.update({"instance": self.object})
+
+        kwargs.update({"user": self.request.user})
+        return kwargs
+
+    def form_valid(self, form: PlaylistForm) -> HttpResponseRedirect:
+        form.instance.created_by = self.request.user
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
 
 
-class PlaylistUpdateView(LoginRequiredMixin, generic.UpdateView):
+class PlaylistUpdateView(PlaylistCreateView, generic.UpdateView):
     pass
 
 
 class PlaylistDeleteView(LoginRequiredMixin, generic.DeleteView):
-    pass
+    model = Playlist
+    success_url = reverse_lazy("forum:playlist-my")
