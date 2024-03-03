@@ -231,11 +231,35 @@ class PlaylistListView(generic.ListView):
 
 
 class MyPlaylistListView(LoginRequiredMixin, generic.ListView):
-    pass
+    model = Playlist
+    paginate_by = 5
+    template_name = "forum/playlist_list_my.html"
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(MyPlaylistListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+
+        context["search_form"] = PlaylistSearchForm(initial={"name": name})
+
+        return context
+
+    def get_queryset(self) -> QuerySet:
+        queryset = (
+            Playlist.objects.filter(owner=self.request.user)
+            .prefetch_related("owner", "songs")
+            .order_by("-created_time")
+        )
+        name = self.request.GET.get("name")
+
+        if name:
+            return queryset.filter(name__icontains=name)
+
+        return queryset
 
 
 class PlaylistDetailView(generic.DetailView):
-    pass
+    model = Playlist
+    queryset = Playlist.objects.prefetch_related("songs")
 
 
 class PlaylistCreateView(LoginRequiredMixin, generic.CreateView):
