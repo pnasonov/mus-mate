@@ -12,6 +12,7 @@ from forum.forms import (
     PostForm,
     SongSearchForm,
     SongForm,
+    PlaylistSearchForm,
 )
 
 
@@ -82,9 +83,9 @@ class MyPostListView(LoginRequiredMixin, generic.ListView):
         return context
 
     def get_queryset(self) -> QuerySet:
-        queryset = Post.objects.prefetch_related(
-            "owner", "commentaries"
-        ).filter(owner=self.request.user.id)
+        queryset = Post.objects.filter(
+            owner=self.request.user.id
+        ).prefetch_related("owner", "commentaries")
 
         title = self.request.GET.get("title")
 
@@ -203,3 +204,47 @@ class SongUpdateView(LoginRequiredMixin, generic.UpdateView):
 class SongDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Song
     success_url = reverse_lazy("forum:song-my")
+
+
+class PlaylistListView(generic.ListView):
+    model = Playlist
+    paginate_by = 5
+
+    def get_context_data(self, *, object_list=None, **kwargs) -> dict:
+        context = super(PlaylistListView, self).get_context_data(**kwargs)
+        name = self.request.GET.get("name", "")
+
+        context["search_form"] = PlaylistSearchForm(initial={"name": name})
+
+        return context
+
+    def get_queryset(self) -> QuerySet:
+        queryset = Playlist.objects.prefetch_related(
+            "owner", "songs"
+        ).order_by("-created_time")
+        name = self.request.GET.get("name")
+
+        if name:
+            return queryset.filter(name__icontains=name)
+
+        return queryset
+
+
+class MyPlaylistListView(LoginRequiredMixin, generic.ListView):
+    pass
+
+
+class PlaylistDetailView(generic.DetailView):
+    pass
+
+
+class PlaylistCreateView(LoginRequiredMixin, generic.CreateView):
+    pass
+
+
+class PlaylistUpdateView(LoginRequiredMixin, generic.UpdateView):
+    pass
+
+
+class PlaylistDeleteView(LoginRequiredMixin, generic.DeleteView):
+    pass
