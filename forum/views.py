@@ -6,7 +6,7 @@ from django.urls import reverse_lazy
 from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from forum.models import Post, Playlist, Song
+from forum.models import Post, Playlist, Song, User
 from forum.forms import (
     CommentaryForm,
     PostSearchForm,
@@ -47,11 +47,10 @@ def index(request: HttpRequest) -> HttpResponse:
     return render(request, "forum/index.html", context=context)
 
 
-@login_required
-def profile(request: HttpRequest) -> HttpResponse:
-    """User's profile page."""
-
-    return render(request, "forum/profile.html")
+class ProfileView(LoginRequiredMixin, generic.DetailView):
+    model = User
+    slug_field = "username"
+    template_name = "forum/profile.html"
 
 
 class PostListView(generic.ListView):
