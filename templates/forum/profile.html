@@ -28,7 +28,7 @@
                 </div>
                 <div class="col-lg-4 me-auto">
                   {% if request.user == user %}
-                    <a href="">
+                    <a href="{% url 'forum:profile-update' slug=user %}">
                       <input class="btn btn-info" type="submit" value="Edit profile">
                     </a>
                   {% endif %}

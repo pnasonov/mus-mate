@@ -19,6 +19,7 @@ from forum.views import (
     PlaylistDeleteView,
     PlaylistDetailView,
     ProfileView,
+    ProfileUpdate,
 )
 
 urlpatterns = [
@@ -72,6 +73,7 @@ urlpatterns = [
         name="playlist-delete",
     ),
     path("profile/<str:slug>/", ProfileView.as_view(), name="profile"),
+    path("profile/<str:slug>/update/", ProfileUpdate.as_view(), name="profile-update"),
 ]
 
 app_name = "forum"

@@ -1,6 +1,6 @@
 from django import forms
 
-from forum.models import Commentary, Post, Song, Playlist
+from forum.models import Commentary, Post, Song, Playlist, User
 
 
 class PostForm(forms.ModelForm):
@@ -54,6 +54,17 @@ class PlaylistForm(forms.ModelForm):
                 queryset=Song.objects.filter(owner=user),
                 widget=forms.CheckboxSelectMultiple,
             )
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "about_me", "email")
+        widgets = {
+            "about_me": forms.Textarea(
+                attrs={"rows": 4, "placeholder": "Write something..."}
+            ),
+        }
 
 
 class PostSearchForm(forms.Form):

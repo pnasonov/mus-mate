@@ -15,6 +15,7 @@ from forum.forms import (
     SongForm,
     PlaylistSearchForm,
     PlaylistForm,
+    UserForm,
 )
 
 
@@ -51,6 +52,14 @@ class ProfileView(LoginRequiredMixin, generic.DetailView):
     model = User
     slug_field = "username"
     template_name = "forum/profile.html"
+
+
+class ProfileUpdate(LoginRequiredMixin, generic.UpdateView):
+    model = User
+    form_class = UserForm
+    slug_field = "username"
+    template_name = "forum/profile_form.html"
+    success_url = reverse_lazy("forum:home")
 
 
 class PostListView(generic.ListView):
