@@ -69,7 +69,12 @@
           <div class="container border-bottom">
             <div class="row justify-space-between py-2">
               <div class="col-lg-3 me-auto">
-                author: <span class="text-bolder">{{ playlist.owner.username }}</span>
+                author:
+                {% with playlist.owner.username as owner %}
+                  <a href="{% url 'forum:profile' slug=owner %}">
+                    <span class="text-bolder">{{ owner }}</span>
+                  </a>
+                {% endwith %}
               </div>
               <div class="col-lg-3 text-end">
                 <div class="nav-wrapper position-relative end-0">
