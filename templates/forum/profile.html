@@ -26,17 +26,17 @@
                     <p class="">{{ user.first_name }} {{ user.last_name }}</p>
                   {% endif %}
                 </div>
-                <div class="col-lg-4 me-auto">
-                  {% if request.user == user %}
-                    <a href="{% url 'forum:profile-update' slug=user %}">
-                      <input class="btn btn-info" type="submit" value="Edit profile">
-                    </a>
-                  {% endif %}
+                <div class="col-lg-1 me-auto">
+
                 </div>
 
-                <div class="col-lg-1 mt-2 text-end">
+                <div class="col-lg-4 mt-2 text-end">
                   <div class="nav-wrapper position-relative end-0">
-                    Online
+                    {% if request.user == user %}
+                      <a href="{% url 'forum:profile-update' slug=user %}">
+                        <input class="btn btn-info" type="submit" value="Edit profile">
+                      </a>
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -56,27 +56,11 @@
                         Email:
                         <p class="text-dark lead">{{ user.email }}</p>
                       {% endif %}
+                      {% if user.instagram %}
+                        Instagram:
+                        <p class="text-dark lead">@{{ user.instagram }}</p>
+                      {% endif %}
 
-                      <div class="row">
-                        <div class="col-md-4 position-relative">
-                          <div class="p-3 text-center">
-
-                            <h5 class="mt-3">Songs</h5>
-                          </div>
-                          <hr class="vertical dark">
-                        </div>
-                        <div class="col-md-4 position-relative">
-                          <div class="p-3 text-center">
-                            <h5 class="mt-3">Playlist</h5>
-                          </div>
-                          <hr class="vertical dark">
-                        </div>
-                        <div class="col-md-4">
-                          <div class="p-3 text-center">
-                            <h5 class="mt-3">Posts</h5>
-                          </div>
-                        </div>
-                      </div>
                     </div>
                   </div>
                 </div>
