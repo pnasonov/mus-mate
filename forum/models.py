@@ -1,3 +1,4 @@
+from autoslug import AutoSlugField
 from django.contrib.auth.models import AbstractUser
 from django.conf import settings
 from django.db import models
@@ -53,3 +54,4 @@ class Commentary(models.Model):
 
 class User(AbstractUser):
     about_me = models.CharField(max_length=255, blank=True)
+    slug = AutoSlugField(populate_from="username", default=None, null=True, db_index=False)
