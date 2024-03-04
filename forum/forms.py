@@ -59,7 +59,8 @@ class PlaylistForm(forms.ModelForm):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("first_name", "last_name", "about_me", "email")
+        fields = ("first_name", "last_name", "about_me", "email", "instagram")
+        labels = {"instagram": "Instagram (write your instagram name without '@')"}
         widgets = {
             "about_me": forms.Textarea(
                 attrs={"rows": 4, "placeholder": "Write something..."}

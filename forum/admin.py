@@ -9,15 +9,15 @@ admin.site.unregister(Group)
 @admin.register(User)
 class UserAdmin(UserAdmin):
     fieldsets = UserAdmin.fieldsets + (
-        (("Additional info", {"fields": ("about_me",)}),)
+        (("Additional info", {"fields": ("about_me", "instagram")}),)
     )
     add_fieldsets = UserAdmin.add_fieldsets + (
         (
             "Additional info",
             {
                 "fields": (
-                    "email",
                     "about_me",
+                    "instagram",
                 )
             },
         ),

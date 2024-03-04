@@ -54,4 +54,5 @@ class Commentary(models.Model):
 
 class User(AbstractUser):
     about_me = models.CharField(max_length=255, blank=True)
+    instagram = models.CharField(max_length=255, blank=True, null=True, default=None)
     slug = AutoSlugField(populate_from="username", default=None, null=True, db_index=False)
