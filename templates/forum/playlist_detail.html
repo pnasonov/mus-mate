@@ -1,0 +1,134 @@
+{% extends 'layouts/base-presentation.html' %}
+{% load crispy_forms_filters %}
+
+{% block title %} Home {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} index-page {% endblock body_class %}
+
+{% block content %}
+
+  <!-- -------- START Features w/ icons and text on left & gradient title and text on right -------- -->
+  <div class="container mt-5">
+    <div class="row">
+      <div class="col-lg-9 mx-auto">
+        <div class="mb-4 w-25 h-2">
+          <br>
+          <br>
+        </div>
+        <div class="position-relative border-radius-xl overflow-hidden shadow-lg mb-4">
+          <div class="container border-bottom">
+            <div class="row justify-space-between py-2">
+              <div class="col-lg-3 me-auto">
+                <h4 class="text-primary text-gradient pt-1 mb-0">
+                  {{ playlist.name }}
+                </h4>
+              </div>
+              <div class="col-lg-6">
+                {% if playlist.owner == user %}
+                  <a href="{% url 'forum:playlist-update' pk=playlist.id %}">
+                    <input class="btn btn-info" type="submit" value="Edit playlist">
+                  </a>&nbsp&nbsp&nbsp
+                  <a href="{% url 'forum:playlist-delete' pk=playlist.id %}">
+                    <input class="btn btn-danger" type="submit" value="Delete playlist">
+                  </a>
+                {% endif %}
+              </div>
+              <div class="col-lg-3 mt-2 text-end">
+                <div class="nav-wrapper position-relative end-0">
+                  {{ playlist.created_time }}
+                </div>
+              </div>
+            </div>
+            <div class="row justify-space-between py-2">
+              <div class="row justify-space-between py-2">
+                <div class="col-lg-10 me-auto">
+                  <p>{{ playlist.description }}</p>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-1"></div>
+              </div>
+            </div>
+          </div>
+          <div class="tab-content tab-space">
+            <div class="tab-pane active" id="preview-features-1">
+              <div class="container">
+                <div class="row justify-content-center">
+                  <div class="col-lg-9">
+                    <br>
+                    {% for song in playlist.songs.all %}
+                      <p class="text-dark lead">{{ forloop.counter }}. {{ song.title }} - {{ song.artist }}</p>
+                    {% endfor %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="container border-bottom">
+            <div class="row justify-space-between py-2">
+              <div class="col-lg-3 me-auto">
+                author:
+                {% with playlist.owner.username as owner %}
+                  <a href="{% url 'forum:profile' slug=owner %}">
+                    <span class="text-bolder">{{ owner }}</span>
+                  </a>
+                {% endwith %}
+              </div>
+              <div class="col-lg-3 text-end">
+                <div class="nav-wrapper position-relative end-0">
+                  Songs amount: {{ playlist.songs.count }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- -------- END Features w/ icons and text on left & gradient title and text on right -------- -->
+
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/js/plugins/countup.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/choices.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/rellax.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/tilt.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/choices.min.js"></script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+  <script type="text/javascript">
+      if (document.getElementById('state1')) {
+          const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
+          if (!countUp.error) {
+              countUp.start();
+          } else {
+              console.error(countUp.error);
+          }
+      }
+      if (document.getElementById('state2')) {
+          const countUp1 = new CountUp('state2', document.getElementById("state2").getAttribute("countTo"));
+          if (!countUp1.error) {
+              countUp1.start();
+          } else {
+              console.error(countUp1.error);
+          }
+      }
+      if (document.getElementById('state3')) {
+          const countUp2 = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
+          if (!countUp2.error) {
+              countUp2.start();
+          } else {
+              console.error(countUp2.error);
+          }
+          ;
+      }
+  </script>
+
+{% endblock javascripts %}

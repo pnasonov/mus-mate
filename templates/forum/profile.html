@@ -1,0 +1,134 @@
+{% extends 'layouts/base-presentation.html' %}
+
+{% block title %} Home {% endblock title %}
+
+<!-- Specific CSS goes HERE -->
+{% block stylesheets %}{% endblock stylesheets %}
+
+{% block body_class %} index-page {% endblock body_class %}
+
+{% block content %}
+
+  <header class="header-2">
+    <div class="page-header section-height-75 relative"
+         style="background-image: url('{{ ASSETS_ROOT }}/img/curved-images/curved.jpg')">
+      <div class="container z-index-2">
+        <div class="row">
+
+          <div class="col-lg-9 z-index-2 border-radius-xl mx-auto py-3 blur shadow-blur mt-6">
+            <div class="container border-bottom">
+              <div class="row justify-space-between py-2">
+                <div class="col-lg-7 me-auto">
+                  <h3 class="text-primary text-gradient pt-1 mb-0">
+                    {{ user }}
+                  </h3>
+                  {% if user.first_name or user.last_name %}
+                    <p class="">{{ user.first_name }} {{ user.last_name }}</p>
+                  {% endif %}
+                </div>
+                <div class="col-lg-1 me-auto">
+
+                </div>
+
+                <div class="col-lg-4 mt-2 text-end">
+                  <div class="nav-wrapper position-relative end-0">
+                    {% if request.user == user %}
+                      <a href="{% url 'forum:profile-update' slug=user %}">
+                        <input class="btn btn-info" type="submit" value="Edit profile">
+                      </a>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="tab-content tab-space">
+              <div class="tab-pane active" id="preview-features-1">
+                <div class="container">
+                  <div class="row justify-content-center">
+                    <div class="col-lg-12">
+                      <br>
+
+                      {% if user.about_me %}
+                        About me:
+                        <p class="text-dark lead">{{ user.about_me }}</p>
+                      {% endif %}
+                      {% if user.email %}
+                        Email:
+                        <p class="text-dark lead">{{ user.email }}</p>
+                      {% endif %}
+                      {% if user.instagram %}
+                        Instagram:
+                        <p class="text-dark lead">@{{ user.instagram }}</p>
+                      {% endif %}
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+      <div class="position-absolute w-100 z-index-1 bottom-0">
+        <svg class="waves" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+             viewBox="0 24 150 40" preserveAspectRatio="none" shape-rendering="auto">
+          <defs>
+            <path id="gentle-wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
+          </defs>
+          <g class="moving-waves">
+            <use xlink:href="#gentle-wave" x="48" y="-1" fill="rgba(255,255,255,0.40"/>
+            <use xlink:href="#gentle-wave" x="48" y="3" fill="rgba(255,255,255,0.35)"/>
+            <use xlink:href="#gentle-wave" x="48" y="5" fill="rgba(255,255,255,0.25)"/>
+            <use xlink:href="#gentle-wave" x="48" y="8" fill="rgba(255,255,255,0.20)"/>
+            <use xlink:href="#gentle-wave" x="48" y="13" fill="rgba(255,255,255,0.15)"/>
+            <use xlink:href="#gentle-wave" x="48" y="16" fill="rgba(255,255,255,0.95"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </header>
+
+{% endblock content %}
+
+<!-- Specific JS goes HERE -->
+{% block javascripts %}
+
+  <script src="{{ ASSETS_ROOT }}/js/plugins/countup.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/choices.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/rellax.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/tilt.min.js"></script>
+  <script src="{{ ASSETS_ROOT }}/js/plugins/choices.min.js"></script>
+
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDTTfWur0PDbZWPr7Pmq8K3jiDp0_xUziI"></script>
+  <script src="{{ ASSETS_ROOT }}/js/soft-design-system.min.js?v=1.0.1" type="text/javascript"></script>
+  <script type="text/javascript">
+      if (document.getElementById('state1')) {
+          const countUp = new CountUp('state1', document.getElementById("state1").getAttribute("countTo"));
+          if (!countUp.error) {
+              countUp.start();
+          } else {
+              console.error(countUp.error);
+          }
+      }
+      if (document.getElementById('state2')) {
+          const countUp1 = new CountUp('state2', document.getElementById("state2").getAttribute("countTo"));
+          if (!countUp1.error) {
+              countUp1.start();
+          } else {
+              console.error(countUp1.error);
+          }
+      }
+      if (document.getElementById('state3')) {
+          const countUp2 = new CountUp('state3', document.getElementById("state3").getAttribute("countTo"));
+          if (!countUp2.error) {
+              countUp2.start();
+          } else {
+              console.error(countUp2.error);
+          }
+          ;
+      }
+  </script>
+
+{% endblock javascripts %}
