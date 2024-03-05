@@ -95,7 +95,10 @@
                     <div class="container border-bottom">
                       <div class="row justify-space-between py-2 text-lighter">
                         <div class="col-lg-3 me-auto">
-                          by <span class="text-bold">{{ comment.user }}</span>
+                          by
+                          <a href="{% url 'forum:profile' slug=comment.user %}">
+                            <span class="text-bold">{{ comment.user }}</span>
+                          </a>
                         </div>
                         <div class="col-lg-5 text-end">
                           <div class="nav-wrapper position-relative end-0">
