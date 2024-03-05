@@ -8,11 +8,13 @@ class Song(models.Model):
     title = models.CharField(max_length=40)
     artist = models.CharField(max_length=40)
     owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="songs",
     )
 
     def __str__(self) -> str:
-        return self.title + " - " + self.artist
+        return f"{self.title} - {self.artist}"
 
 
 class Playlist(models.Model):
@@ -21,7 +23,9 @@ class Playlist(models.Model):
     songs = models.ManyToManyField(Song, related_name="playlists")
     created_time = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="playlists",
     )
 
 
@@ -30,7 +34,9 @@ class Post(models.Model):
     content = models.CharField(max_length=255)
     created_time = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="posts",
     )
 
     def __str__(self) -> str:
@@ -48,7 +54,9 @@ class Commentary(models.Model):
         Post, on_delete=models.CASCADE, related_name="commentaries"
     )
     user = models.ForeignKey(
-        settings.AUTH_USER_MODEL, on_delete=models.CASCADE
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        related_name="commentaries",
     )
 
 
