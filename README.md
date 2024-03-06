@@ -6,7 +6,10 @@ It's django project for music lovers that want get in touch with each-other. Cre
 ## Check it out!
 
 [Music Forum deployed to Render](https://musmate.onrender.com/)
-
+provided account(
+login: user
+password: user12345
+)
 ## Installation
 
 Python3 must be already installed
